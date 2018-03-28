@@ -5,7 +5,6 @@
  */
 package deteccion_opencv;
 
-import org.opencv.core.Core;
 import view.Presentacion;
 
 /**
@@ -18,7 +17,6 @@ public class Deteccion_opencv {
      * @param args the command line arguments
      */
     public static void main(String arg[]) throws InterruptedException {
-        System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
         Presentacion objPresentacion = new Presentacion();
         objPresentacion.setVisible(true);
         objPresentacion.setResizable(false);
