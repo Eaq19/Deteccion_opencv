@@ -20,7 +20,7 @@ import org.opencv.objdetect.CascadeClassifier;
  */
 public class Detectar {
 
-    private CascadeClassifier clasificador;
+    private CascadeClassifier objClasificador;
 
     public Detectar() {
         try {
@@ -28,12 +28,12 @@ public class Detectar {
             String sRuta = miDir.getCanonicalPath()+ "\\algoritmo\\haarcascades\\haarcascade_frontalface_alt.xml";
             sRuta = sRuta.replace("\\", "/");
             //Se lee el archivo Haar que le permite a OpenCV detectar rostros frontales en una imagen
-            clasificador = new CascadeClassifier(sRuta);
-            if (clasificador.empty()) {
-                System.out.println("Error de lectura.");
+            objClasificador = new CascadeClassifier(sRuta);
+            if (objClasificador.empty()) {
+                System.out.println("Error al cargar el algoritmo de lectura.");
                 return;
             } else {
-                System.out.println("Detector de rostros leido.");
+                System.out.println("Se cargo correctamente el algoritmo de deteccion.");
             }
         } catch (Exception e) {
         }
@@ -48,8 +48,8 @@ public class Detectar {
             frameDeEntrada.copyTo(mGrey);
             Imgproc.cvtColor(mRgba, mGrey, Imgproc.COLOR_BGR2GRAY);
             Imgproc.equalizeHist(mGrey, mGrey);
-            clasificador.detectMultiScale(mGrey, rostros);
-            System.out.println(String.format("Detectando %s rostros", rostros.toArray().length));
+            objClasificador.detectMultiScale(mGrey, rostros);
+            System.out.println(String.format("El sistema detecto %s rostros", rostros.toArray().length));
             for (Rect rect : rostros.toArray()) {
                 //Se dibuja un rectángulo donde se ha encontrado el rostro
                 Imgproc.rectangle(mRgba, new Point(rect.x, rect.y), new Point(rect.x + rect.width, rect.y + rect.height), new Scalar(255, 0, 0));

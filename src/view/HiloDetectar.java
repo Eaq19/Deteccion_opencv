@@ -29,6 +29,7 @@ public class HiloDetectar extends Thread {
     @Override
     public void run() {
         try {
+            boolean bAux = true;
             // Se crea una matriz que contendrá la imagen
             Mat imagenDeWebCam = new Mat();
             VideoCapture webCam = new VideoCapture(0);
@@ -36,8 +37,13 @@ public class HiloDetectar extends Thread {
 //                Thread.sleep(500); // Se interrumpe el thread para permitir que la webcam se inicialice
                 while (this.ejecucion) {
                     webCam.read(imagenDeWebCam);
+                    Thread.sleep(500);
                     if (!imagenDeWebCam.empty()) {
-                        this.ObjJFrame.setSize(imagenDeWebCam.width() + 100, imagenDeWebCam.height() + 100);
+                        if(bAux) {
+                            this.ObjJFrame.setSize(imagenDeWebCam.width() + 100, imagenDeWebCam.height() + 100);
+                            bAux = false;
+                        }
+                        Thread.sleep(100);
                         // Invocamos la rutina de opencv que detecta rostros sobre la imagen obtenida por la webcam
                         imagenDeWebCam = this.objDetectar.detecta(imagenDeWebCam);
                         // Muestra la imagen

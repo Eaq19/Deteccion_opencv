@@ -5,9 +5,13 @@
  */
 package view;
 
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+import controller.User;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import javax.swing.JFrame;
+import javax.swing.table.DefaultTableModel;
+import model.Conexion;
+import model.Users;
 import org.opencv.core.Mat;
 
 /**
@@ -15,14 +19,14 @@ import org.opencv.core.Mat;
  * @author Acer
  */
 public class Presentacion extends javax.swing.JFrame {
-    
+
     private PanelCamara objPanelCamara = null;
     private HiloDetectar objHilo = null;
 
     /**
      * Creates new form Presentacion
      */
-    public Presentacion() {
+    public Presentacion() throws SQLException, ClassNotFoundException {
         this.objPanelCamara = new PanelCamara();
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         //
@@ -34,11 +38,32 @@ public class Presentacion extends javax.swing.JFrame {
         initComponents();
         this.jPanelCamara.add(this.objPanelCamara);
         this.objPanelCamara.setVisible(true);
-        
+
         //Esto se útiliza para agregar el botón al JFrame
         //objPresentacion.getCo.add(objPanelCamara, BorderLayout.CENTER);
- 
         this.setVisible(true);
+        this.getConstruirTabla();
+    }
+
+    private void getConstruirTabla() throws SQLException, ClassNotFoundException {
+        DefaultTableModel modelo = new DefaultTableModel();
+        User objUser = new User();
+        Conexion objConexion = new Conexion();
+        ArrayList<Users> users = objUser.recuperarTodas(objConexion.obtener());
+        this.jTable1.setModel(modelo);
+        
+        modelo.addColumn("id");
+        modelo.addColumn("nombre");
+        modelo.addColumn("imagen");
+        // Se crea un array que será una de las filas de la tabla. 
+        for (int j = 0; j < users.size(); j++) {
+            Object[] fila = new Object[3];
+            fila[0] = users.get(j).getId();
+            fila[1] = users.get(j).getNombre();
+            fila[2] = users.get(j).getImagen();
+            // Se añade al modelo la fila completa.
+            modelo.addRow(fila);
+        }
     }
 
     /**
@@ -77,43 +102,48 @@ public class Presentacion extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jButton1.setText("Agregar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+
             }
         ));
         jScrollPane1.setViewportView(jTable1);
@@ -192,11 +222,11 @@ public class Presentacion extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 719, Short.MAX_VALUE)
+            .addComponent(jTabbedPane1)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 317, Short.MAX_VALUE)
+            .addComponent(jTabbedPane1)
         );
 
         pack();
@@ -220,7 +250,13 @@ public class Presentacion extends javax.swing.JFrame {
         } catch (Exception e) {
         }
     }//GEN-LAST:event_jButton4ActionPerformed
-    
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        UserJFrame objUser = new UserJFrame();
+        objUser.setVisible(true);
+        objUser.setDefaultCloseOperation(HIDE_ON_CLOSE);
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     public void setMathImage(Mat imagenDeWebCam) {
         try {
             this.objPanelCamara.convierteMatABufferedImage(imagenDeWebCam);
@@ -228,7 +264,7 @@ public class Presentacion extends javax.swing.JFrame {
         } catch (Exception e) {
         }
     }
-    
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton3;
