@@ -6,19 +6,17 @@
 package deteccion_opencv;
 
 import view.Presentacion;
-
 /**
  *
  * @author Acer
  */
 public class Deteccion_opencv {
-    
+
+
     /**
      * @param args the command line arguments
      */
     public static void main(String arg[]) throws InterruptedException {
-        Presentacion objPresentacion = new Presentacion();
-        objPresentacion.setVisible(true);
-        objPresentacion.setResizable(false);
+        Presentacion objPresentacion = new Presentacion();  
     }
 }

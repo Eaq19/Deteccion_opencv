@@ -40,20 +40,24 @@ public class Detectar {
     }
 
     public Mat detecta(Mat frameDeEntrada) {
-        Mat mRgba = new Mat();
-        Mat mGrey = new Mat();
-        MatOfRect rostros = new MatOfRect();
-        frameDeEntrada.copyTo(mRgba);
-        frameDeEntrada.copyTo(mGrey);
-        Imgproc.cvtColor(mRgba, mGrey, Imgproc.COLOR_BGR2GRAY);
-        Imgproc.equalizeHist(mGrey, mGrey);
-        clasificador.detectMultiScale(mGrey, rostros);
-        System.out.println(String.format("Detectando %s rostros", rostros.toArray().length));
-        for (Rect rect : rostros.toArray()) {
-            //Se dibuja un rectángulo donde se ha encontrado el rostro
-            Imgproc.rectangle(mRgba, new Point(rect.x, rect.y), new Point(rect.x + rect.width, rect.y + rect.height), new Scalar(255, 0, 0));
+        try {
+            Mat mRgba = new Mat();
+            Mat mGrey = new Mat();
+            MatOfRect rostros = new MatOfRect();
+            frameDeEntrada.copyTo(mRgba);
+            frameDeEntrada.copyTo(mGrey);
+            Imgproc.cvtColor(mRgba, mGrey, Imgproc.COLOR_BGR2GRAY);
+            Imgproc.equalizeHist(mGrey, mGrey);
+            clasificador.detectMultiScale(mGrey, rostros);
+            System.out.println(String.format("Detectando %s rostros", rostros.toArray().length));
+            for (Rect rect : rostros.toArray()) {
+                //Se dibuja un rectángulo donde se ha encontrado el rostro
+                Imgproc.rectangle(mRgba, new Point(rect.x, rect.y), new Point(rect.x + rect.width, rect.y + rect.height), new Scalar(255, 0, 0));
 
+            }
+            return mRgba;
+        } catch (Exception e) {
         }
-        return mRgba;
+        return new Mat();
     }
 }

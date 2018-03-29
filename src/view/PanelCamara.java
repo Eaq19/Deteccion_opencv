@@ -22,7 +22,7 @@ import org.opencv.imgcodecs.Imgcodecs;
 public class PanelCamara extends javax.swing.JPanel {
     
     private static final long serialVersionUID = 1L;
-    private BufferedImage imagen;
+    public BufferedImage imagen;
 
     /** Creates new form Panel */
     public PanelCamara() {
