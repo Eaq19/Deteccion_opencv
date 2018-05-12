@@ -1,0 +1,3 @@
+deteccion_opencv.DetectorRostros
+deteccion_opencv.pruebas
+deteccion_opencv.PanelDeRostros
