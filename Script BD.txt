@@ -1,0 +1,43 @@
+CREATE DATABASE Deteccion;
+USE Deteccion;
+
+CREATE TABLE `Deteccion`.`Antecedente` 
+( `idAntecedente` INT(100) NOT NULL AUTO_INCREMENT , 
+`sentencias` INT(100) NULL , `prision` INT(100) NULL , 
+`reinsidente` BOOLEAN NOT NULL , 
+PRIMARY KEY (`idAntecedente`)) 
+ENGINE = InnoDB;
+
+
+CREATE TABLE `Deteccion`.`Usuario` ( 
+`idUsuario` INT(100) NOT NULL AUTO_INCREMENT , 
+`nombres` VARCHAR(100) NOT NULL , 
+`apellidos` VARCHAR(100) NOT NULL , 
+`documento` VARCHAR(50) NOT NULL , 
+`telefono` VARCHAR(20) NULL , 
+`correo` VARCHAR(100) NULL , 
+`genero` VARCHAR(30) NULL , 
+`estado` BOOLEAN NULL , 
+`direccion` VARCHAR(300) NULL , 
+`imagen` BLOB NULL , 
+`idAntecedente` INT(100) NOT NULL,
+PRIMARY KEY (`idUsuario`)) 
+ENGINE = InnoDB;
+
+
+CREATE TABLE `deteccion`.`Delito` ( 
+`idDelito` INT(100) NOT NULL AUTO_INCREMENT , 
+`nombre` VARCHAR(300) NOT NULL , 
+`categoria` INT(50) NULL , 
+PRIMARY KEY (`idDelito`)) 
+ENGINE = InnoDB;
+
+
+
+CREATE TABLE `deteccion`.`Antecedente_Delito` 
+( `idAntecedente` INT(100) NULL , 
+`idDelito` INT(100) NULL ) 
+ENGINE = InnoDB;
+
+
+
