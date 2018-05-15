@@ -44,9 +44,14 @@ public class HiloDetectar extends Thread {
                             Thread.sleep(100);
                         }
                         // Invocamos la rutina de opencv que detecta rostros sobre la imagen obtenida por la webcam
-                        Object[] oObject = this.objDetectar.detecta(imagenDeWebCam);
+                        Object[] oObject = this.objDetectar.detecta(imagenDeWebCam, this.ObjJFrame.bGuardar, this.ObjJFrame.txtNombreImg.getText());
                         if (oObject[1] != "") {
                             this.ObjJFrame.txtAreaDeteccion.setText(this.ObjJFrame.txtAreaDeteccion.getText() + oObject[1] + "\n");
+                        }
+                        if (oObject[2] == "1") {
+                            this.ObjJFrame.bGuardar = false;
+                            this.ObjJFrame.txtAreaDeteccion.setText(this.ObjJFrame.txtAreaDeteccion.getText() + "Se guardo la imagen  \n");
+                            this.ObjJFrame.txtNombreImg.setText("");
                         }
                         // Muestra la imagen
                         this.ObjJFrame.setMathImage((Mat) oObject[0]);

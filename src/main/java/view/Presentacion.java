@@ -6,9 +6,11 @@
 package view;
 
 import controller.User;
+import java.awt.event.WindowEvent;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import model.Conexion;
 import model.Users;
@@ -22,6 +24,7 @@ public class Presentacion extends javax.swing.JFrame {
 
     private PanelCamara objPanelCamara = null;
     private HiloDetectar objHilo = null;
+    public boolean bGuardar = false;
 
     /**
      * Creates new form Presentacion
@@ -51,7 +54,7 @@ public class Presentacion extends javax.swing.JFrame {
         Conexion objConexion = new Conexion();
         ArrayList<Users> users = objUser.recuperarTodas(objConexion.obtener());
         this.jTable1.setModel(modelo);
-        
+
         modelo.addColumn("id");
         modelo.addColumn("nombre");
         modelo.addColumn("imagen");
@@ -90,6 +93,7 @@ public class Presentacion extends javax.swing.JFrame {
         txtAreaDeteccion = new javax.swing.JTextArea();
         jLabel1 = new javax.swing.JLabel();
         jButton2 = new javax.swing.JButton();
+        txtNombreImg = new javax.swing.JTextField();
 
         jInternalFrame1.setVisible(true);
 
@@ -202,6 +206,11 @@ public class Presentacion extends javax.swing.JFrame {
         jLabel1.setText("Deteccion:");
 
         jButton2.setText("Capturar imagen");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -209,10 +218,11 @@ public class Presentacion extends javax.swing.JFrame {
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabel1)
                     .addComponent(jButton2)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 151, Short.MAX_VALUE)
+                    .addComponent(txtNombreImg))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
@@ -221,8 +231,10 @@ public class Presentacion extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(txtNombreImg, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton2)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -253,7 +265,7 @@ public class Presentacion extends javax.swing.JFrame {
                     .addComponent(jButton4))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 238, Short.MAX_VALUE)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, 238, Short.MAX_VALUE)
                     .addComponent(jPanelCamara, javax.swing.GroupLayout.DEFAULT_SIZE, 238, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -289,6 +301,8 @@ public class Presentacion extends javax.swing.JFrame {
             this.objHilo = null;
             this.jPanelCamara.setVisible(false);
             this.repaint();
+            this.txtAreaDeteccion.setText("");
+            this.txtNombreImg.setText("");
         } catch (Exception e) {
         }
     }//GEN-LAST:event_jButton4ActionPerformed
@@ -298,6 +312,12 @@ public class Presentacion extends javax.swing.JFrame {
         objUser.setVisible(true);
         objUser.setDefaultCloseOperation(HIDE_ON_CLOSE);
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        if (!this.txtNombreImg.getText().equals("")) {
+            this.bGuardar = true;
+        }
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     public void setMathImage(Mat imagenDeWebCam) {
         try {
@@ -323,5 +343,6 @@ public class Presentacion extends javax.swing.JFrame {
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTable jTable1;
     public javax.swing.JTextArea txtAreaDeteccion;
+    public javax.swing.JTextField txtNombreImg;
     // End of variables declaration//GEN-END:variables
 }
