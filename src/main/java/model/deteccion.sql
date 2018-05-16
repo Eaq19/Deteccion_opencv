@@ -1,13 +1,15 @@
 -- phpMyAdmin SQL Dump
--- version 4.4.14
--- http://www.phpmyadmin.net
+-- version 4.7.4
+-- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 14-05-2018 a las 04:51:22
--- Versión del servidor: 5.6.26
--- Versión de PHP: 5.6.12
+-- Tiempo de generación: 16-05-2018 a las 05:20:27
+-- Versión del servidor: 10.1.30-MariaDB
+-- Versión de PHP: 5.6.33
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
+START TRANSACTION;
 SET time_zone = "+00:00";
 
 
@@ -26,7 +28,7 @@ SET time_zone = "+00:00";
 -- Estructura de tabla para la tabla `antecedente`
 --
 
-CREATE TABLE IF NOT EXISTS `antecedente` (
+CREATE TABLE `antecedente` (
   `idAntecedente` int(100) NOT NULL,
   `sentencias` int(100) DEFAULT NULL,
   `prision` int(100) DEFAULT NULL,
@@ -39,7 +41,7 @@ CREATE TABLE IF NOT EXISTS `antecedente` (
 -- Estructura de tabla para la tabla `antecedente_delito`
 --
 
-CREATE TABLE IF NOT EXISTS `antecedente_delito` (
+CREATE TABLE `antecedente_delito` (
   `idAntecedente` int(100) DEFAULT NULL,
   `idDelito` int(100) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -50,7 +52,7 @@ CREATE TABLE IF NOT EXISTS `antecedente_delito` (
 -- Estructura de tabla para la tabla `delito`
 --
 
-CREATE TABLE IF NOT EXISTS `delito` (
+CREATE TABLE `delito` (
   `idDelito` int(100) NOT NULL,
   `nombre` varchar(300) NOT NULL,
   `categoria` int(50) DEFAULT NULL
@@ -62,7 +64,7 @@ CREATE TABLE IF NOT EXISTS `delito` (
 -- Estructura de tabla para la tabla `usuario`
 --
 
-CREATE TABLE IF NOT EXISTS `usuario` (
+CREATE TABLE `usuario` (
   `idUsuario` int(100) NOT NULL,
   `nombres` varchar(100) NOT NULL,
   `apellidos` varchar(100) NOT NULL,
@@ -72,18 +74,22 @@ CREATE TABLE IF NOT EXISTS `usuario` (
   `genero` varchar(30) DEFAULT NULL,
   `estado` tinyint(1) DEFAULT NULL,
   `direccion` varchar(300) DEFAULT NULL,
-  `imagen` blob,
+  `imagen` varchar(255) DEFAULT NULL,
   `idAntecedente` int(100) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=1012393975 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Volcado de datos para la tabla `usuario`
 --
 
 INSERT INTO `usuario` (`idUsuario`, `nombres`, `apellidos`, `documento`, `telefono`, `correo`, `genero`, `estado`, `direccion`, `imagen`, `idAntecedente`) VALUES
-(54321, 'Mariana', 'Rojas', '54321', '345028', 'mrojas@correo.com', 'Mujer', 1, 'av primera cll 45', NULL, -1),
-(123456, 'Luis', 'Martinez', '123456', '3504234', 'lmartin@correo.com', 'Hombre', 0, 'av 45 #1', NULL, -1),
-(1012393974, 'Hector Felipe', 'Hurtado Acosta', '1012393974', '3118414998', 'hfhurtadoa@correo.udistrital.edu.co', 'Hombre', 1, 'cll 47 # 8', NULL, -1);
+(1, 'Mariana', 'Rojas2', '54321', '345028', 'mrojas@correo.com', 'Mujer', 1, 'av primera cll 45', NULL, -1),
+(2, 'sdsd', 'sdsd', '121212', '444', 'wewe@gmail.com', 'Hombre', 0, 'ssdds', NULL, -1),
+(3, 'Luis', 'Martinez', '123456', '3504234', 'lmartin@correo.com', 'Hombre', 0, 'av 45 #1', NULL, -1),
+(4, 'Hector Felipe', 'Hurtado Acosta', '1012393974', '3118414998', 'hfhurtadoa@correo.udistrital.edu.co', 'Hombre', 1, 'cll 47 # 8', NULL, -1),
+(5, 'sdsd', '1', '5', '3', '4', '5', 1, '6', 'C:\\xampp\\htdocs\\Clientes\\Rostros\\fotos\\5-3.jpg', -1),
+(45, 'Kimberly', 'Jhoana', '45', '3', '4', '5', 1, '6', 'C:\\xampp\\htdocs\\Clientes\\Rostros\\fotos\\23231-0.jpg', -1),
+(111, 'Edison', '1', '111', '3', '4', '5', 1, '6', 'C:\\xampp\\htdocs\\Clientes\\Rostros\\fotos\\111-0.jpg', -1);
 
 --
 -- Índices para tablas volcadas
@@ -124,16 +130,19 @@ ALTER TABLE `usuario`
 --
 ALTER TABLE `antecedente`
   MODIFY `idAntecedente` int(100) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT de la tabla `delito`
 --
 ALTER TABLE `delito`
   MODIFY `idDelito` int(100) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT de la tabla `usuario`
 --
 ALTER TABLE `usuario`
-  MODIFY `idUsuario` int(100) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1012393975;
+  MODIFY `idUsuario` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1012393975;
+
 --
 -- Restricciones para tablas volcadas
 --
@@ -144,6 +153,7 @@ ALTER TABLE `usuario`
 ALTER TABLE `antecedente_delito`
   ADD CONSTRAINT `antecedente_delito_ibfk_1` FOREIGN KEY (`idDelito`) REFERENCES `delito` (`idDelito`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `antecedente_delito_ibfk_2` FOREIGN KEY (`idAntecedente`) REFERENCES `antecedente` (`idAntecedente`) ON DELETE CASCADE ON UPDATE CASCADE;
+COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

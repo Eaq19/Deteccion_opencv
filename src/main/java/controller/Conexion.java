@@ -22,6 +22,7 @@ import javax.swing.table.DefaultTableModel;
 public class Conexion {
 
     private static Connection cnx = null;
+    private int iUltimo = 0;
 
     public Conexion() {
     }
@@ -137,4 +138,22 @@ public class Conexion {
         }
     }
 
+    public String getById(String id) {
+        try {
+            Statement sentencia;
+            sentencia = obtener().createStatement();
+            ResultSet resultado = sentencia.executeQuery("SELECT * FROM usuario WHERE idUsuario = '" + id + "'");
+            String ultimo = ""; 
+            while (resultado.next()) {
+                ultimo = resultado.getObject(2).toString() + " " + resultado.getObject(3).toString();
+            }
+            resultado.close();
+            return ultimo;
+        } catch (SQLException e) {
+            System.out.println("Error SQL: " + e + " Información");
+        } catch (Exception e) {
+            System.out.println("Error: " + e + " Información");
+        }
+        return "";
+    }
 }
