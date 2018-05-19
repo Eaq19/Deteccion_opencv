@@ -12,7 +12,8 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
-import javax.swing.JOptionPane;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -48,12 +49,9 @@ public class Conexion {
     }
 
     public DefaultTableModel getUsuarios() {
-
         DefaultTableModel modelo = new DefaultTableModel();
         Statement sentencia;
-
         try {
-
             sentencia = obtener().createStatement();
             ResultSet resultado = sentencia.executeQuery("select * from usuario");
             ResultSetMetaData campos = resultado.getMetaData();
@@ -95,7 +93,7 @@ public class Conexion {
             PreparedStatement sentencia;
             String instruccion = "insert into usuario values(?,?,?,?,?,?,?,?,?,?,?)";
             sentencia = obtener().prepareStatement(instruccion);
-            sentencia.setInt(1, Integer.parseInt(documento));
+            sentencia.setString(1, documento);
             sentencia.setString(2, nombres);
             sentencia.setString(3, apellidos);
             sentencia.setString(4, documento);
@@ -155,5 +153,30 @@ public class Conexion {
             System.out.println("Error: " + e + " Información");
         }
         return "";
+    }
+    
+    public List<String> getList() {
+        List<String> list = null;
+        Statement sentencia;
+        try {
+            sentencia = obtener().createStatement();
+            ResultSet resultado = sentencia.executeQuery("SELECT * FROM `usuario` ");
+            list = new ArrayList<String>();
+            int iAux = 0;
+            while (resultado.next()) {
+                iAux = Integer.parseInt(resultado.getObject(1).toString());
+//                System.out.println(iAux);
+                list.add(iAux, resultado.getObject(2).toString() + " " + resultado.getObject(3).toString());
+            }
+            for (String string : list) {
+                System.out.println("Lista: " + string);
+            }
+            resultado.close();
+        } catch (SQLException e) {
+            System.out.println("Error SQL: " + e + " Información");
+        } catch (Exception e) {
+            System.out.println("Error: " + e + " Información");
+        }
+        return list;
     }
 }

@@ -183,15 +183,15 @@ public class Presentacion extends javax.swing.JFrame {
         getData();
     }
 
-    public void getById(String id) {
-        this.txtReconocimiento.setText(this.txtReconocimiento.getText() + "Se reconocio al usuario " + this.objConexion.getById(id) + "\n");
-    }
-
     public void fnSaveParams(String sName, String sImg) {
         try {
             objConexion.setUsuarios(sName, "1", this.txtDocumentoImg.getText(), "3", "4", "5", true, "6", sImg, -1);
             JOptionPane.showMessageDialog(this.JDUsuarios, "Registro Insertado", "Información",
                     JOptionPane.INFORMATION_MESSAGE);
+            this.txtNombreImg.setText("");
+            this.txtDocumentoImg.setText("");
+            this.bGuardar = false;
+            this.txtAreaDeteccion.setText(sName + "Se guardo la imagen  \n");
         } catch (SQLException ex) {
             Logger.getLogger(Presentacion.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -264,9 +264,6 @@ public class Presentacion extends javax.swing.JFrame {
         jLabel15 = new javax.swing.JLabel();
         txtDocumentoImg = new javax.swing.JTextField();
         jLabel16 = new javax.swing.JLabel();
-        jLabel17 = new javax.swing.JLabel();
-        jScrollPane5 = new javax.swing.JScrollPane();
-        txtReconocimiento = new javax.swing.JTextArea();
         jButton1 = new javax.swing.JButton();
 
         jInternalFrame1.setVisible(true);
@@ -762,13 +759,6 @@ public class Presentacion extends javax.swing.JFrame {
         jLabel16.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel16.setText("Documento");
 
-        jLabel17.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jLabel17.setText("Reconocimiento");
-
-        txtReconocimiento.setColumns(20);
-        txtReconocimiento.setRows(5);
-        jScrollPane5.setViewportView(txtReconocimiento);
-
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -783,19 +773,16 @@ public class Presentacion extends javax.swing.JFrame {
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txtDocumentoImg)
                             .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel1)
                                     .addComponent(jButton2)
                                     .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
-                                    .addComponent(jScrollPane5))
+                                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(0, 55, Short.MAX_VALUE)))
                         .addGap(6, 6, 6))
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel17)
-                            .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, Short.MAX_VALUE))))
+                        .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 176, Short.MAX_VALUE))))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -804,11 +791,7 @@ public class Presentacion extends javax.swing.JFrame {
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel17)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane5)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(18, 18, 18)
                 .addComponent(jLabel15)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtNombreImg, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -818,7 +801,7 @@ public class Presentacion extends javax.swing.JFrame {
                 .addComponent(txtDocumentoImg, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jButton2)
-                .addContainerGap())
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jButton1.setText("Limpiar");
@@ -862,8 +845,10 @@ public class Presentacion extends javax.swing.JFrame {
                         .addComponent(jButton1)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanelCamara, javax.swing.GroupLayout.DEFAULT_SIZE, 430, Short.MAX_VALUE))
+                    .addComponent(jPanelCamara, javax.swing.GroupLayout.DEFAULT_SIZE, 430, Short.MAX_VALUE)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
 
@@ -885,7 +870,7 @@ public class Presentacion extends javax.swing.JFrame {
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         try {
-            this.objHilo = new HiloDetectar(this);
+            this.objHilo = new HiloDetectar(this, this.objConexion);
             this.jPanelCamara.setVisible(true);
             objHilo.start();
         } catch (Exception e) {
@@ -929,7 +914,6 @@ public class Presentacion extends javax.swing.JFrame {
 
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btnEditarActionPerformed
     {//GEN-HEADEREND:event_btnEditarActionPerformed
-
         this.txtNombres.setEnabled(true);
         this.txtApellidos.setEnabled(true);
         this.txtDocumento.setEnabled(true);
@@ -945,7 +929,6 @@ public class Presentacion extends javax.swing.JFrame {
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btnEliminarActionPerformed
     {//GEN-HEADEREND:event_btnEliminarActionPerformed
-
         int seleccion = JOptionPane.showOptionDialog(this.JDUsuarios, "¿Desea INHABILITAR EL USUARIO(Si/No)", "Seleccione una opción",
                 JOptionPane.YES_NO_CANCEL_OPTION,
                 JOptionPane.QUESTION_MESSAGE, null, new Object[]{
@@ -968,7 +951,6 @@ public class Presentacion extends javax.swing.JFrame {
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btnGuardarActionPerformed
     {//GEN-HEADEREND:event_btnGuardarActionPerformed
-
         setBottons(true);
         save();
         this.tblUsuarios.setEnabled(true);
@@ -995,7 +977,6 @@ public class Presentacion extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         this.txtAreaDeteccion.setText("");
-        this.txtReconocimiento.setText("");
     }//GEN-LAST:event_jButton1ActionPerformed
 
     public void setMathImage(Mat imagenDeWebCam) {
@@ -1034,7 +1015,6 @@ public class Presentacion extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
-    private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -1053,7 +1033,6 @@ public class Presentacion extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
-    private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JPanel pnlBotonesAsignacion;
     private javax.swing.JPanel pnlDelitosAsignados;
@@ -1072,7 +1051,6 @@ public class Presentacion extends javax.swing.JFrame {
     public javax.swing.JTextField txtDocumentoImg;
     public javax.swing.JTextField txtNombreImg;
     private javax.swing.JTextField txtNombres;
-    private javax.swing.JTextArea txtReconocimiento;
     private javax.swing.JTextField txtTelefono;
     // End of variables declaration//GEN-END:variables
 }

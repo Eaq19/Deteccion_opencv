@@ -5,6 +5,7 @@
  */
 package view;
 
+import controller.Conexion;
 import org.opencv.core.*;
 import org.opencv.videoio.VideoCapture;
 
@@ -17,12 +18,14 @@ public class HiloDetectar extends Thread {
     private Detectar objDetectar = null;
     private Presentacion ObjJFrame = null;
     private boolean ejecucion = true;
+    private Conexion objConexion;
 
-    public HiloDetectar(Presentacion ObjJFrame) {
+    public HiloDetectar(Presentacion ObjJFrame, Conexion objConexion) {
         // Leyendo librería nativa
         System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
         this.objDetectar = new Detectar();
         this.ObjJFrame = ObjJFrame;
+        this.objConexion = objConexion;
     }
 
     @Override
@@ -41,23 +44,14 @@ public class HiloDetectar extends Thread {
                         if (bAux) {
                             this.ObjJFrame.setSize(imagenDeWebCam.width() + 170, imagenDeWebCam.height() + 100);
                             bAux = false;
-                            Thread.sleep(100);
                         }
                         // Invocamos la rutina de opencv que detecta rostros sobre la imagen obtenida por la webcam
-                        Object[] oObject = this.objDetectar.detecta(imagenDeWebCam, this.ObjJFrame.bGuardar, this.ObjJFrame.txtNombreImg.getText(), this.ObjJFrame.txtDocumentoImg.getText());
+                        Object[] oObject = this.objDetectar.detecta(imagenDeWebCam, this.ObjJFrame.bGuardar, this.ObjJFrame.txtNombreImg.getText(), this.ObjJFrame.txtDocumentoImg.getText(), this.objConexion);
                         if (!oObject[1].equals("")) {
                             this.ObjJFrame.txtAreaDeteccion.setText(this.ObjJFrame.txtAreaDeteccion.getText() + oObject[1] + "\n");
                         }
-                        if (oObject[3].toString() != "") {
-                            this.ObjJFrame.getById(oObject[3].toString());
-                            oObject[3] = "";
-                        }
                         if (oObject[2].equals("1")) {
-                            this.ObjJFrame.bGuardar = false;
-                            this.ObjJFrame.txtAreaDeteccion.setText(this.ObjJFrame.txtAreaDeteccion.getText() + "Se guardo la imagen  \n");
                             this.ObjJFrame.fnSaveParams(this.ObjJFrame.txtNombreImg.getText(), oObject[3].toString());
-                            this.ObjJFrame.txtNombreImg.setText("");
-                            this.ObjJFrame.txtDocumentoImg.setText("");
                         }
                         // Muestra la imagen
                         this.ObjJFrame.setMathImage((Mat) oObject[0]);
