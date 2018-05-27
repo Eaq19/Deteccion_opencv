@@ -42,7 +42,7 @@ public class HiloDetectar extends Thread {
                     Thread.sleep(200);
                     if (!imagenDeWebCam.empty()) {
                         if (bAux) {
-                            this.ObjJFrame.setSize(imagenDeWebCam.width() + 170, imagenDeWebCam.height() + 100);
+                            this.ObjJFrame.setSize(imagenDeWebCam.width() + 350, imagenDeWebCam.height() + 100);
                             bAux = false;
                         }
                         // Invocamos la rutina de opencv que detecta rostros sobre la imagen obtenida por la webcam
