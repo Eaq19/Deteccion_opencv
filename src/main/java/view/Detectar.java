@@ -156,7 +156,7 @@ public class Detectar {
                 result = id[0];
                 System.out.println("Distancia: " + distancia[0]);
                 System.out.println("Resulltado: " + result);
-                if (result > -1 && distancia[0] < 70) {
+                if (result > -1 && distancia[0] < 55) {
                     System.out.println("Distancia: " + distancia[0]);
                     sText = objConexion.getById(String.valueOf(result));
                 } else {
