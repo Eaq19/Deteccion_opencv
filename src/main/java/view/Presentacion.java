@@ -6,12 +6,16 @@
 package view;
 
 import controller.Conexion;
+import controller.PersistenceAntecedente;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import model.Delito;
 import org.opencv.core.Mat;
 
 /**
@@ -23,7 +27,10 @@ public class Presentacion extends javax.swing.JFrame {
     private PanelCamara objPanelCamara = null;
     private HiloDetectar objHilo = null;
     Conexion objConexion = new Conexion();
+    PersistenceAntecedente objAntecedente = new PersistenceAntecedente();
     DefaultTableModel modelo = new DefaultTableModel();
+    private List<Delito> delitosSinAsignar = new ArrayList();
+    private List<Delito> delitosAsignados = new ArrayList();
     private boolean edit = false;
     private int rowSelected;
     public boolean bGuardar = false;
@@ -48,10 +55,6 @@ public class Presentacion extends javax.swing.JFrame {
         //objPresentacion.getCo.add(objPanelCamara, BorderLayout.CENTER);
         this.setVisible(true);
 
-        //Inhabilita  vista de panel de delitos en el JDialog usuario
-        this.pnlDelitosSinAsignar.setVisible(false);
-        this.pnlBotonesAsignacion.setVisible(false);
-        this.pnlDelitosAsignados.setVisible(false);
         this.btnImprimir.setVisible(false);
     }
 
@@ -93,7 +96,7 @@ public class Presentacion extends javax.swing.JFrame {
 
     }
 
-    public void getSelectedRow() {
+    public void getSelectedRow() throws SQLException, ClassNotFoundException {
 
         rowSelected = tblUsuarios.getSelectedRow();
         if (rowSelected == -1) {
@@ -110,6 +113,15 @@ public class Presentacion extends javax.swing.JFrame {
                 this.chkEstado.setSelected((boolean) modelo.getValueAt(rowSelected, 7));
                 this.txtDireccion.setText(modelo.getValueAt(rowSelected, 8).toString().trim());
                 //this.pnlImagen
+
+                llenarDelitosSinAsignar(modelo.getValueAt(rowSelected, 0).toString().trim());
+                llenarDelitosAsignados(modelo.getValueAt(rowSelected, 0).toString().trim());
+
+                if (objAntecedente.reinsidente(modelo.getValueAt(rowSelected, 0).toString().trim())) {
+                    JOptionPane.showMessageDialog(this.JDUsuarios, "Usuario Peligroso", "Advertencia",
+                        JOptionPane.WARNING_MESSAGE);
+                }
+
             } else {
                 System.out.println("No hay datos de usuarios");
 
@@ -117,11 +129,38 @@ public class Presentacion extends javax.swing.JFrame {
         }
     }
 
-    public void getData() {
-        modelo = objConexion.getUsuarios();
-        System.out.println(modelo);
-        this.tblUsuarios.setModel(modelo);
+    public void llenarDelitosSinAsignar(String idUsuario) throws SQLException, ClassNotFoundException {
 
+        delitosSinAsignar = objAntecedente.getDelitosByNotUsuario();
+        DefaultTableModel modeloDelitosSinAsignar = new DefaultTableModel();
+        modeloDelitosSinAsignar.addColumn("DELITOS EN BASE DE DATOS");
+        Object[] fila = new Object[1];
+        for (int i = 0; i < delitosSinAsignar.size(); i++) {
+            fila[0] = delitosSinAsignar.get(i).getNombre();
+            modeloDelitosSinAsignar.addRow(fila);
+        }
+        tblDelitosSinAsignar.setModel(modeloDelitosSinAsignar);
+
+    }
+
+    public void llenarDelitosAsignados(String idUsuario) throws SQLException, ClassNotFoundException {
+
+        delitosAsignados = objAntecedente.getDelitosByUsuario(idUsuario);
+        DefaultTableModel modeloDelitosAsignados = new DefaultTableModel();
+        modeloDelitosAsignados.addColumn("DELITOS ASIGNADOS");
+        Object[] fila = new Object[1];
+        for (int i = 0; i < delitosAsignados.size(); i++) {
+            fila[0] = delitosAsignados.get(i).getNombre();
+            modeloDelitosAsignados.addRow(fila);
+        }
+        tblDelitosAsignados.setModel(modeloDelitosAsignados);
+
+    }
+
+    public void getData() throws SQLException, ClassNotFoundException {
+
+        modelo = objConexion.getUsuarios();
+        this.tblUsuarios.setModel(modelo);
         tblUsuarios.getColumnModel().getColumn(0).setMaxWidth(0);
         tblUsuarios.getColumnModel().getColumn(0).setMinWidth(0);
         tblUsuarios.getTableHeader().getColumnModel().getColumn(0).setMaxWidth(0);
@@ -162,7 +201,7 @@ public class Presentacion extends javax.swing.JFrame {
 
     }
 
-    public void save() {
+    public void save() throws SQLException, ClassNotFoundException {
         if (edit) {
             try {
                 objConexion.updateUsuario(Integer.parseInt(tblUsuarios.getValueAt(rowSelected, 0).toString()), txtNombres.getText(), txtApellidos.getText(), txtDocumento.getText(), txtTelefono.getText(), txtCorreo.getText(), this.cmbGenero.getSelectedItem().toString().trim(), this.chkEstado.isSelected(), txtDireccion.getText(), null, -1);
@@ -455,15 +494,27 @@ public class Presentacion extends javax.swing.JFrame {
 
         tblDelitosSinAsignar.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {},
-                {},
-                {},
-                {}
+
             },
             new String [] {
-
+                "DELITOS EN BASE DE DATOS"
             }
-        ));
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane3.setViewportView(tblDelitosSinAsignar);
 
         javax.swing.GroupLayout pnlDelitosSinAsignarLayout = new javax.swing.GroupLayout(pnlDelitosSinAsignar);
@@ -550,15 +601,20 @@ public class Presentacion extends javax.swing.JFrame {
 
         tblDelitosAsignados.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {},
-                {},
-                {},
-                {}
+
             },
             new String [] {
-
+                "DELITOS DEL USUARIO"
             }
-        ));
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
         jScrollPane4.setViewportView(tblDelitosAsignados);
 
         javax.swing.GroupLayout pnlDelitosAsignadosLayout = new javax.swing.GroupLayout(pnlDelitosAsignados);
@@ -892,13 +948,23 @@ public class Presentacion extends javax.swing.JFrame {
         this.JDUsuarios.show();
         setBottons(true);
         this.tblUsuarios.setEnabled(true);
-        getData();
+        try {
+            getData();
+        } catch (SQLException | ClassNotFoundException ex) {
+            Logger.getLogger(Presentacion.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btnUsuariosActionPerformed
 
     private void tblUsuariosMouseClicked(java.awt.event.MouseEvent evt)//GEN-FIRST:event_tblUsuariosMouseClicked
     {//GEN-HEADEREND:event_tblUsuariosMouseClicked
 
-        getSelectedRow();
+        try {
+            getSelectedRow();
+        } catch (SQLException ex) {
+            Logger.getLogger(Presentacion.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Presentacion.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_tblUsuariosMouseClicked
 
     private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btnNuevoActionPerformed
@@ -942,7 +1008,13 @@ public class Presentacion extends javax.swing.JFrame {
             } catch (ClassNotFoundException ex) {
                 Logger.getLogger(Presentacion.class.getName()).log(Level.SEVERE, null, ex);
             }
-            getData();
+            try {
+                getData();
+            } catch (SQLException ex) {
+                Logger.getLogger(Presentacion.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(Presentacion.class.getName()).log(Level.SEVERE, null, ex);
+            }
         } else {
             JOptionPane.showMessageDialog(this.JDUsuarios, "Registro NO ELIMINADO", "Información",
                     JOptionPane.INFORMATION_MESSAGE);
@@ -952,7 +1024,13 @@ public class Presentacion extends javax.swing.JFrame {
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btnGuardarActionPerformed
     {//GEN-HEADEREND:event_btnGuardarActionPerformed
         setBottons(true);
-        save();
+        try {
+            save();
+        } catch (SQLException ex) {
+            Logger.getLogger(Presentacion.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Presentacion.class.getName()).log(Level.SEVERE, null, ex);
+        }
         this.tblUsuarios.setEnabled(true);
     }//GEN-LAST:event_btnGuardarActionPerformed
 
@@ -975,7 +1053,7 @@ public class Presentacion extends javax.swing.JFrame {
             this.bGuardar = true;
         } else {
             JOptionPane.showMessageDialog(this.JDUsuarios, "Los campos estan vacios", "Información",
-                JOptionPane.INFORMATION_MESSAGE);
+                    JOptionPane.INFORMATION_MESSAGE);
         }
     }//GEN-LAST:event_jButton2ActionPerformed
 

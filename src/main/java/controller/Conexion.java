@@ -15,6 +15,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
+import model.Delito;
 
 /**
  *
@@ -28,7 +29,7 @@ public class Conexion {
     public Conexion() {
     }
 
-    public static Connection obtener() throws SQLException, ClassNotFoundException {
+    public Connection obtener() throws SQLException, ClassNotFoundException {
         if (cnx == null) {
             try {
                 Class.forName("com.mysql.jdbc.Driver");
@@ -42,7 +43,7 @@ public class Conexion {
         return cnx;
     }
 
-    public static void cerrar() throws SQLException {
+    public void cerrar() throws SQLException {
         if (cnx != null) {
             cnx.close();
         }
@@ -179,4 +180,5 @@ public class Conexion {
         }
         return list;
     }
+    
 }
