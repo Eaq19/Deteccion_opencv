@@ -47,7 +47,6 @@ public class Presentacion extends javax.swing.JFrame {
         //Esto se útiliza para agregar el botón al JFrame
         //objPresentacion.getCo.add(objPanelCamara, BorderLayout.CENTER);
         this.setVisible(true);
-
         //Inhabilita  vista de panel de delitos en el JDialog usuario
         this.pnlDelitosSinAsignar.setVisible(false);
         this.pnlBotonesAsignacion.setVisible(false);
