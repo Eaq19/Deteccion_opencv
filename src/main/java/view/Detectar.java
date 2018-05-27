@@ -103,7 +103,6 @@ public class Detectar {
                 } else {
                     Rect rect_Crop = new Rect(rect.x + iPosicion, rect.y + iPosicion, rect.width + iTamaño, rect.height + iTamaño);
                     oObject[3] = this.fnReconocer(new Mat(frameDeEntrada, rect_Crop), objConexion);
-                    //                oObject[3] = this.fnReconocer(new Mat(mRgba, rect_Crop), objConexion);
                 }
                 Imgproc.putText(mRgba, oObject[3].toString(), new Point(rect.x, rect.y), FONT_ITALIC, 1.0, new Scalar(255, 255, 255));
                 Imgproc.rectangle(mRgba, new Point(rect.x, rect.y), new Point(rect.x + rect.width, rect.y + rect.height),
