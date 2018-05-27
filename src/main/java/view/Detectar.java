@@ -96,7 +96,7 @@ public class Detectar {
                 faceRecognizer.predict(img, id, distancia);
                 result = id[0];
                 System.out.println("Distancia: " + distancia[0]);
-                if (result > -1 && distancia[0] < 62) {
+                if (result > -1 && distancia[0] < 48) {
                     System.out.println("Distancia: " + distancia[0]);
                     oObject[3] = objConexion.getById(String.valueOf(result));
                 } else {

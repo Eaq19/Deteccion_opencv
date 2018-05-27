@@ -966,18 +966,18 @@ public class Presentacion extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_btnQuitarUnoActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        this.txtAreaDeteccion.setText("");
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         if (!this.txtNombreImg.getText().equals("") && !this.txtDocumentoImg.getText().equals("")) {
             this.bGuardar = true;
         } else {
             JOptionPane.showMessageDialog(this.JDUsuarios, "Los campos estan vacios", "Información",
-                    JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.INFORMATION_MESSAGE);
         }
     }//GEN-LAST:event_jButton2ActionPerformed
-
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        this.txtAreaDeteccion.setText("");
-    }//GEN-LAST:event_jButton1ActionPerformed
 
     public void setMathImage(Mat imagenDeWebCam) {
         try {
