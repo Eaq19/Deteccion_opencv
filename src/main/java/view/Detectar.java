@@ -6,9 +6,14 @@
 package view;
 
 import controller.Conexion;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FilenameFilter;
+import java.io.InputStream;
 import java.nio.IntBuffer;
+import java.util.Random;
+import javax.imageio.ImageIO;
 import org.bytedeco.javacpp.opencv_face.FaceRecognizer;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfRect;
@@ -27,6 +32,7 @@ import static org.bytedeco.javacpp.opencv_imgcodecs.CV_LOAD_IMAGE_GRAYSCALE;
 import org.bytedeco.javacpp.BytePointer;
 import org.bytedeco.javacpp.IntPointer;
 import org.bytedeco.javacpp.DoublePointer;
+import org.bytedeco.javacpp.FlyCapture2.Image;
 import org.bytedeco.javacpp.opencv_core;
 import static org.bytedeco.javacpp.opencv_core.CV_32SC1;
 import org.bytedeco.javacpp.opencv_core.IplImage;
@@ -38,6 +44,7 @@ import org.bytedeco.javacpp.opencv_core.MatVector;
 import static org.bytedeco.javacpp.opencv_imgcodecs.CV_LOAD_IMAGE_GRAYSCALE;
 import static org.bytedeco.javacpp.opencv_imgcodecs.cvLoadImage;
 import static org.bytedeco.javacpp.opencv_imgcodecs.imread;
+import org.opencv.core.MatOfByte;
 
 /**
  *
@@ -82,34 +89,25 @@ public class Detectar {
             frameDeEntrada.copyTo(mGrey);
             Imgproc.cvtColor(mRgba, mGrey, Imgproc.COLOR_BGR2GRAY);
             Imgproc.equalizeHist(mGrey, mGrey);
-            objClasificador.detectMultiScale(mGrey, rostros);
+            objClasificador.detectMultiScale(mGrey, rostros, 1.2, 4, 0,
+                    new org.opencv.core.Size(10, 10), new org.opencv.core.Size(
+                            1000, 1000));
             oObject[1] = "";
             oObject[2] = "-1";
             oObject[3] = "";
-            if (rostros.toArray().length > 0) {
-                String sPrueba = sPath + "\\prueba\\prueba.jpg";
-                Imgcodecs.imwrite(sPrueba, frameDeEntrada);
-                opencv_core.Mat img = imread(sPrueba, CV_LOAD_IMAGE_GRAYSCALE);
-                int[] id = new int[1];
-                double[] distancia = new double[1];
-                int result = -1;
-                faceRecognizer.predict(img, id, distancia);
-                result = id[0];
-                System.out.println("Distancia: " + distancia[0]);
-                if (result > -1 && distancia[0] < 48) {
-                    System.out.println("Distancia: " + distancia[0]);
-                    oObject[3] = objConexion.getById(String.valueOf(result));
-                } else {
-                    oObject[3] = "Desconocido";
-                }
-            }
-            if (!sName.equals("")) {
-                oObject[3] = sName;
-            }
+            int iPosicion = -65;
+            int iTamaño = 90;
             for (Rect rect : rostros.toArray()) {
-                //Se dibuja un rectángulo donde se ha encontrado el rostro
+                if (!sName.equals("")) {
+                    oObject[3] = sName;
+                } else {
+                    Rect rect_Crop = new Rect(rect.x + iPosicion, rect.y + iPosicion, rect.width + iTamaño, rect.height + iTamaño);
+                    oObject[3] = this.fnReconocer(new Mat(frameDeEntrada, rect_Crop), objConexion);
+                    //                oObject[3] = this.fnReconocer(new Mat(mRgba, rect_Crop), objConexion);
+                }
                 Imgproc.putText(mRgba, oObject[3].toString(), new Point(rect.x, rect.y), FONT_ITALIC, 1.0, new Scalar(255, 255, 255));
-                Imgproc.rectangle(mRgba, new Point(rect.x, rect.y), new Point(rect.x + rect.width, rect.y + rect.height), new Scalar(255, 255, 255));
+                Imgproc.rectangle(mRgba, new Point(rect.x, rect.y), new Point(rect.x + rect.width, rect.y + rect.height),
+                        new Scalar(0, 0, 255), 2);
             }
             oObject[0] = mRgba;
             if (rostros.toArray().length > 0) {
@@ -141,6 +139,29 @@ public class Detectar {
         oObject[0] = new Mat();
         oObject[1] = "";
         return oObject;
+    }
+
+    private String fnReconocer(Mat rostro, Conexion objConexion) {
+        String sText = "";
+        try {
+            String sPrueba = sPath + "\\prueba\\prueba.jpg";
+            Imgcodecs.imwrite(sPrueba, rostro);
+            opencv_core.Mat img = imread(sPrueba, CV_LOAD_IMAGE_GRAYSCALE);
+            int[] id = new int[1];
+            double[] distancia = new double[1];
+            int result = -1;
+            faceRecognizer.predict(img, id, distancia);
+            result = id[0];
+            System.out.println("Distancia: " + distancia[0]);
+            if (result > -1 && distancia[0] < 85) {
+                System.out.println("Distancia: " + distancia[0]);
+                sText = objConexion.getById(String.valueOf(result));
+            } else {
+                sText = "Desconocido";
+            }
+        } catch (Exception e) {
+        }
+        return sText;
     }
 
     private void fnEntrenar() {
