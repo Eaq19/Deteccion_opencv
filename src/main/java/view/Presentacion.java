@@ -120,10 +120,6 @@ public class Presentacion extends javax.swing.JFrame {
                 llenarDelitosSinAsignar(modelo.getValueAt(rowSelected, 0).toString().trim());
                 llenarDelitosAsignados(modelo.getValueAt(rowSelected, 0).toString().trim());
 
-                if (objAntecedente.reinsidente(modelo.getValueAt(rowSelected, 0).toString().trim())) {
-                    JOptionPane.showMessageDialog(this.JDUsuarios, "Usuario Peligroso", "Advertencia",
-                        JOptionPane.WARNING_MESSAGE);
-                }
 
             } else {
                 System.out.println("No hay datos de usuarios");

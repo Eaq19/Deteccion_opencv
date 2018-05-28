@@ -6,6 +6,8 @@
 package view;
 
 import controller.Conexion;
+import controller.PersistenceAntecedente;
+import java.awt.Component;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -14,6 +16,8 @@ import java.io.InputStream;
 import java.nio.IntBuffer;
 import java.util.Random;
 import javax.imageio.ImageIO;
+import javax.swing.JOptionPane;
+import model.Antecedente;
 import org.bytedeco.javacpp.opencv_face.FaceRecognizer;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfRect;
@@ -79,7 +83,7 @@ public class Detectar {
         }
     }
 
-    public Object[] detecta(Mat frameDeEntrada, boolean guardar, String sName, String iUltimo, Conexion objConexion) {
+    public Object[] detecta(Mat frameDeEntrada, boolean guardar, String sName, String iUltimo, Conexion objConexion, Component comp, PersistenceAntecedente objAntecedente) {
         Object[] oObject = new Object[4];
         try {
             Mat mRgba = new Mat();
@@ -102,7 +106,7 @@ public class Detectar {
                     oObject[3] = sName;
                 } else {
                     Rect rect_Crop = new Rect(rect.x + iPosicion, rect.y + iPosicion, rect.width + iTamaño, rect.height + iTamaño);
-                    oObject[3] = this.fnReconocer(new Mat(frameDeEntrada, rect_Crop), objConexion);
+                    oObject[3] = this.fnReconocer(new Mat(frameDeEntrada, rect_Crop), objConexion, comp, objAntecedente);
                 }
                 Imgproc.putText(mRgba, oObject[3].toString(), new Point(rect.x, rect.y), FONT_ITALIC, 1.0, new Scalar(255, 255, 255));
                 Imgproc.rectangle(mRgba, new Point(rect.x, rect.y), new Point(rect.x + rect.width, rect.y + rect.height),
@@ -140,7 +144,7 @@ public class Detectar {
         return oObject;
     }
 
-    private String fnReconocer(Mat rostro, Conexion objConexion) {
+    private String fnReconocer(Mat rostro, Conexion objConexion, Component comp, PersistenceAntecedente objAntecedente) {
         String sText = "";
         try {
             String sPrueba = sPath + "\\prueba\\prueba.jpg";
@@ -155,6 +159,11 @@ public class Detectar {
             if (result > -1 && distancia[0] < 85) {
                 System.out.println("Distancia: " + distancia[0]);
                 sText = objConexion.getById(String.valueOf(result));
+                
+                if (objAntecedente.reinsidente(String.valueOf(result))) {
+                    JOptionPane.showMessageDialog(comp, "Usuario Peligroso", "Advertencia",
+                            JOptionPane.WARNING_MESSAGE);
+                }
             } else {
                 sText = "Desconocido";
             }
