@@ -106,7 +106,7 @@ public class Detectar {
                 if (!sName.equals("")) {
                     oObject[3] = sName;
                 } else {
-                    
+
                     //Rect rect_Crop = new Rect(rect.x + iPosicion, rect.y + iPosicion, rect.width + iTamaño, rect.height + iTamaño);
                     oObject[3] = this.fnReconocer(new Mat(frameDeEntrada, rect_Crop), objConexion, comp, objAntecedente);
 
@@ -162,11 +162,16 @@ public class Detectar {
                 faceRecognizer.predict(img, id, distancia);
                 result = id[0];
                 System.out.println("Distancia: " + distancia[0]);
-                sText = objConexion.getById(String.valueOf(result));
-                
-                if (objAntecedente.reinsidente(String.valueOf(result))) {
-                    JOptionPane.showMessageDialog(comp, "Usuario Peligroso", "Advertencia",
-                            JOptionPane.WARNING_MESSAGE);
+                System.out.println("Resulltado: " + result);
+                if (result > -1 && distancia[0] < 55) {
+                    System.out.println("Distancia: " + distancia[0]);
+                    sText = objConexion.getById(String.valueOf(result));
+                    if (objAntecedente.reinsidente(String.valueOf(result))) {
+                        JOptionPane.showMessageDialog(comp, "Usuario Peligroso", "Advertencia",
+                                JOptionPane.WARNING_MESSAGE);
+                    }
+                } else {
+                    sText = "Desconocido";
                 }
             } else {
                 sText = "Desconocido";
