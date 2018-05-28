@@ -55,9 +55,7 @@ public class Presentacion extends javax.swing.JFrame {
         //objPresentacion.getCo.add(objPanelCamara, BorderLayout.CENTER);
         this.setVisible(true);
         //Inhabilita  vista de panel de delitos en el JDialog usuario
-        this.pnlDelitosSinAsignar.setVisible(false);
-        this.pnlBotonesAsignacion.setVisible(false);
-        this.pnlDelitosAsignados.setVisible(false);
+        this.pnlDelitosAsignados.setVisible(true);
         this.btnImprimir.setVisible(false);
     }
 
@@ -81,12 +79,7 @@ public class Presentacion extends javax.swing.JFrame {
         this.txtDireccion.setEnabled(true);
         this.cmbGenero.setEnabled(true);
         this.chkEstado.setEnabled(true);
-        this.btnAsignarUno.setEnabled(true);
-        this.btnAsignarTodos.setEnabled(true);
-        this.btnQuitarUno.setEnabled(true);
-        this.btnQuitarTodos.setEnabled(true);
         this.tblDelitosAsignados.setEnabled(true);
-        this.tblDelitosSinAsignar.setEnabled(true);
     }
 
     public void setBottons(boolean set) {
@@ -117,7 +110,6 @@ public class Presentacion extends javax.swing.JFrame {
                 this.txtDireccion.setText(modelo.getValueAt(rowSelected, 8).toString().trim());
                 //this.pnlImagen
 
-                llenarDelitosSinAsignar(modelo.getValueAt(rowSelected, 0).toString().trim());
                 llenarDelitosAsignados(modelo.getValueAt(rowSelected, 0).toString().trim());
 
 
@@ -138,7 +130,6 @@ public class Presentacion extends javax.swing.JFrame {
             fila[0] = delitosSinAsignar.get(i).getNombre();
             modeloDelitosSinAsignar.addRow(fila);
         }
-        tblDelitosSinAsignar.setModel(modeloDelitosSinAsignar);
 
     }
 
@@ -264,9 +255,6 @@ public class Presentacion extends javax.swing.JFrame {
         jLabel13 = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
         txtDireccion = new javax.swing.JTextField();
-        pnlDelitosSinAsignar = new javax.swing.JPanel();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        tblDelitosSinAsignar = new javax.swing.JTable();
         jPanel6 = new javax.swing.JPanel();
         btnNuevo = new javax.swing.JButton();
         btnEditar = new javax.swing.JButton();
@@ -276,11 +264,6 @@ public class Presentacion extends javax.swing.JFrame {
         pnlDelitosAsignados = new javax.swing.JPanel();
         jScrollPane4 = new javax.swing.JScrollPane();
         tblDelitosAsignados = new javax.swing.JTable();
-        pnlBotonesAsignacion = new javax.swing.JPanel();
-        btnAsignarUno = new javax.swing.JButton();
-        btnAsignarTodos = new javax.swing.JButton();
-        btnQuitarUno = new javax.swing.JButton();
-        btnQuitarTodos = new javax.swing.JButton();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
@@ -491,48 +474,6 @@ public class Presentacion extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        tblDelitosSinAsignar.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "DELITOS EN BASE DE DATOS"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.String.class
-            };
-            boolean[] canEdit = new boolean [] {
-                false
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        jScrollPane3.setViewportView(tblDelitosSinAsignar);
-
-        javax.swing.GroupLayout pnlDelitosSinAsignarLayout = new javax.swing.GroupLayout(pnlDelitosSinAsignar);
-        pnlDelitosSinAsignar.setLayout(pnlDelitosSinAsignarLayout);
-        pnlDelitosSinAsignarLayout.setHorizontalGroup(
-            pnlDelitosSinAsignarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlDelitosSinAsignarLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 338, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        pnlDelitosSinAsignarLayout.setVerticalGroup(
-            pnlDelitosSinAsignarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlDelitosSinAsignarLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
-
         btnNuevo.setText("Nuevo");
         btnNuevo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -622,55 +563,15 @@ public class Presentacion extends javax.swing.JFrame {
             pnlDelitosAsignadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlDelitosAsignadosLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 359, Short.MAX_VALUE)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 872, Short.MAX_VALUE)
                 .addContainerGap())
         );
         pnlDelitosAsignadosLayout.setVerticalGroup(
             pnlDelitosAsignadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlDelitosAsignadosLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE)
                 .addContainerGap())
-        );
-
-        btnAsignarUno.setText("->");
-
-        btnAsignarTodos.setText("=>");
-
-        btnQuitarUno.setText("<-");
-        btnQuitarUno.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnQuitarUnoActionPerformed(evt);
-            }
-        });
-
-        btnQuitarTodos.setText("<=");
-
-        javax.swing.GroupLayout pnlBotonesAsignacionLayout = new javax.swing.GroupLayout(pnlBotonesAsignacion);
-        pnlBotonesAsignacion.setLayout(pnlBotonesAsignacionLayout);
-        pnlBotonesAsignacionLayout.setHorizontalGroup(
-            pnlBotonesAsignacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlBotonesAsignacionLayout.createSequentialGroup()
-                .addContainerGap(44, Short.MAX_VALUE)
-                .addGroup(pnlBotonesAsignacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnQuitarTodos)
-                    .addComponent(btnQuitarUno, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnAsignarTodos, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnAsignarUno, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(38, 38, 38))
-        );
-        pnlBotonesAsignacionLayout.setVerticalGroup(
-            pnlBotonesAsignacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlBotonesAsignacionLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(btnAsignarUno)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnAsignarTodos)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnQuitarUno)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnQuitarTodos)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout JDUsuariosLayout = new javax.swing.GroupLayout(JDUsuarios.getContentPane());
@@ -681,15 +582,12 @@ public class Presentacion extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(JDUsuariosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(pnlTablaUsuarios, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(JDUsuariosLayout.createSequentialGroup()
-                        .addComponent(pnlDelitosSinAsignar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(30, 30, 30)
-                        .addComponent(pnlBotonesAsignacion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(pnlDelitosAsignados, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                    .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
+            .addGroup(JDUsuariosLayout.createSequentialGroup()
+                .addGap(36, 36, 36)
+                .addComponent(pnlDelitosAsignados, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         JDUsuariosLayout.setVerticalGroup(
             JDUsuariosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -697,10 +595,7 @@ public class Presentacion extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(pnlTablaUsuarios, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addGroup(JDUsuariosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(pnlBotonesAsignacion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(pnlDelitosSinAsignar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(pnlDelitosAsignados, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(pnlDelitosAsignados, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(19, Short.MAX_VALUE))
@@ -916,7 +811,7 @@ public class Presentacion extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 876, Short.MAX_VALUE)
+                .addComponent(jTabbedPane1)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -1042,11 +937,6 @@ public class Presentacion extends javax.swing.JFrame {
         //Imprimir();
     }//GEN-LAST:event_btnImprimirActionPerformed
 
-    private void btnQuitarUnoActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btnQuitarUnoActionPerformed
-    {//GEN-HEADEREND:event_btnQuitarUnoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnQuitarUnoActionPerformed
-
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         this.txtAreaDeteccion.setText("");
     }//GEN-LAST:event_jButton1ActionPerformed
@@ -1071,15 +961,11 @@ public class Presentacion extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JDialog JDUsuarios;
     private javax.swing.JButton btnAntecedentes;
-    private javax.swing.JButton btnAsignarTodos;
-    private javax.swing.JButton btnAsignarUno;
     private javax.swing.JButton btnEditar;
     private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnGuardar;
     private javax.swing.JButton btnImprimir;
     private javax.swing.JButton btnNuevo;
-    private javax.swing.JButton btnQuitarTodos;
-    private javax.swing.JButton btnQuitarUno;
     private javax.swing.JButton btnUsuarios;
     private javax.swing.JCheckBox chkEstado;
     private javax.swing.JComboBox cmbGenero;
@@ -1112,17 +998,13 @@ public class Presentacion extends javax.swing.JFrame {
     private javax.swing.JPanel jPanelCamara;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JPanel pnlBotonesAsignacion;
     private javax.swing.JPanel pnlDelitosAsignados;
-    private javax.swing.JPanel pnlDelitosSinAsignar;
     private javax.swing.JPanel pnlFormUsuarios;
     private javax.swing.JPanel pnlImagen;
     private javax.swing.JPanel pnlTablaUsuarios;
     private javax.swing.JTable tblDelitosAsignados;
-    private javax.swing.JTable tblDelitosSinAsignar;
     private javax.swing.JTable tblUsuarios;
     private javax.swing.JTextField txtApellidos;
     public javax.swing.JTextArea txtAreaDeteccion;
