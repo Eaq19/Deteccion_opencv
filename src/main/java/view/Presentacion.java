@@ -229,7 +229,7 @@ public class Presentacion extends javax.swing.JFrame {
             this.txtNombreImg.setText("");
             this.txtDocumentoImg.setText("");
             this.bGuardar = false;
-            this.txtAreaDeteccion.setText(sName + "Se guardo la imagen  \n");
+            this.txtAreaDeteccion.setText("Se guardo la imagen " + sName + " \n");
         } catch (SQLException ex) {
             Logger.getLogger(Presentacion.class.getName()).log(Level.SEVERE, null, ex);
         }
