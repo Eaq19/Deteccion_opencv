@@ -162,13 +162,11 @@ public class Detectar {
                 faceRecognizer.predict(img, id, distancia);
                 result = id[0];
                 System.out.println("Distancia: " + distancia[0]);
-                System.out.println("Resulltado: " + result);
                 if (result > -1 && distancia[0] < 55) {
                     System.out.println("Distancia: " + distancia[0]);
                     sText = objConexion.getById(String.valueOf(result));
                     if (objAntecedente.reinsidente(String.valueOf(result))) {
-                        JOptionPane.showMessageDialog(comp, "Usuario Peligroso", "Advertencia",
-                                JOptionPane.WARNING_MESSAGE);
+                        JOptionPane.showMessageDialog(comp, "Usuario Peligroso", "Advertencia",JOptionPane.WARNING_MESSAGE);
                     }
                 } else {
                     sText = "Desconocido";
